@@ -24,6 +24,7 @@ const CLUSTER_BADGES: Record<string, { icon: string; time: string; distance: str
   "이태원 선셋 투어": { icon: "🌇", time: "约 2 小时", distance: "1.2km" },
   "종로 역사 투어": { icon: "🏛️", time: "约 4 小时", distance: "4.0km" },
   "압구정 패션 투어": { icon: "👗", time: "约 3 小时", distance: "2.3km" },
+  "宁宁首尔巡礼路线": { icon: "✨", time: "约 5 小时", distance: "8.5km" },
 };
 
 export default function RoutePage() {
