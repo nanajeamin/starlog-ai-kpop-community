@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import { Template } from "@/lib/data";
 import { cn, formatCount, GROUP_CONFIG, PLACE_TYPE_LABELS } from "@/lib/utils";
 import GroupBadge from "./GroupBadge";
@@ -21,6 +24,7 @@ const GROUP_GRADIENTS: Record<string, string> = {
 export default function TemplateCard({ template, className, compact = false }: TemplateCardProps) {
   const gradient = GROUP_GRADIENTS[template.group_id] ?? "from-[#f0f0f0] to-[#e0e0e0]";
   const config = GROUP_CONFIG[template.group_id as GroupId];
+  const [imgError, setImgError] = useState(false);
 
   return (
     <Link
@@ -32,19 +36,19 @@ export default function TemplateCard({ template, className, compact = false }: T
     >
       {/* Cover image */}
       <div className={cn("bg-gradient-to-br w-full relative overflow-hidden", gradient, compact ? "h-32" : "h-48")}>
-        {template.cover_image && (
+        {template.cover_image && !imgError && (
           <Image
             src={template.cover_image}
             alt={template.place_name_cn}
             fill
             className="object-cover"
-            onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+            onError={() => setImgError(true)}
           />
         )}
         <div className="absolute inset-0 flex flex-col justify-end p-4" style={{ background: template.cover_image ? "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)" : undefined }}>
           <GroupBadge groupId={template.group_id} idolName={template.idol_name ?? undefined} />
         </div>
-        {!template.cover_image && (
+        {(!template.cover_image || imgError) && (
           <>
             <div className="absolute top-4 right-4 w-16 h-16 rounded-full opacity-30" style={{ backgroundColor: config?.color ?? "#ccc" }} />
             <div className="absolute top-8 right-8 w-8 h-8 rounded-full opacity-20" style={{ backgroundColor: config?.color ?? "#ccc" }} />
