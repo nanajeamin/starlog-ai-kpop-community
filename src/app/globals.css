@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #1c1c1e;
+  --canvas: #ffffff;
+  --surface: #f7f8fa;
+  --hairline: #e0e2e8;
+  --hairline-soft: #eef0f3;
+  --hairline-strong: #c7cad5;
+  --steel: #6b6f7e;
+  --slate: #555a6a;
+  --footer-bg: #1c1c1e;
+  --block-lilac: #ede8f8;
+  --block-rose: #fde0f0;
+  --block-teal: #c3faf5;
+  --block-coral: #ffc6c6;
+  --block-yellow: #fff4c4;
+  --block-navy: #1a1a3e;
+  --block-mint: #d4f5e9;
+  --brand-blue: #4262ff;
+  --success: #00b473;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background: var(--canvas);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .text-display {
+    font-size: clamp(36px, 5.5vw, 64px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+  }
+
+  .text-heading-1 {
+    font-size: clamp(26px, 4vw, 48px);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -1px;
+  }
+
+  .text-heading-2 {
+    font-size: clamp(20px, 3vw, 36px);
+    font-weight: 600;
+    line-height: 1.20;
+    letter-spacing: -0.5px;
+  }
+
+  .text-heading-3 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .text-stat {
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 600;
+    line-height: 1.10;
+    letter-spacing: -1.5px;
+  }
+
+  .text-eyebrow {
+    font-family: "JetBrains Mono", "SF Mono", monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--steel);
+  }
+
+  .section-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  @media (max-width: 768px) {
+    .section-container {
+      padding: 0 20px;
+    }
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--hairline-strong); border-radius: 3px; }
