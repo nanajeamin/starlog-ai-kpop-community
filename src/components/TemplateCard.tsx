@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Template } from "@/lib/data";
 import { cn, formatCount, GROUP_CONFIG, PLACE_TYPE_LABELS } from "@/lib/utils";
 import GroupBadge from "./GroupBadge";
@@ -29,20 +30,26 @@ export default function TemplateCard({ template, className, compact = false }: T
         className
       )}
     >
-      {/* Cover image placeholder — gradient */}
-      <div className={cn("bg-gradient-to-br w-full relative", gradient, compact ? "h-32" : "h-48")}>
-        <div className="absolute inset-0 flex flex-col justify-end p-4">
+      {/* Cover image */}
+      <div className={cn("bg-gradient-to-br w-full relative overflow-hidden", gradient, compact ? "h-32" : "h-48")}>
+        {template.cover_image && (
+          <Image
+            src={template.cover_image}
+            alt={template.place_name_cn}
+            fill
+            className="object-cover"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+          />
+        )}
+        <div className="absolute inset-0 flex flex-col justify-end p-4" style={{ background: template.cover_image ? "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)" : undefined }}>
           <GroupBadge groupId={template.group_id} idolName={template.idol_name ?? undefined} />
         </div>
-        {/* Decorative circles */}
-        <div
-          className="absolute top-4 right-4 w-16 h-16 rounded-full opacity-30"
-          style={{ backgroundColor: config?.color ?? "#ccc" }}
-        />
-        <div
-          className="absolute top-8 right-8 w-8 h-8 rounded-full opacity-20"
-          style={{ backgroundColor: config?.color ?? "#ccc" }}
-        />
+        {!template.cover_image && (
+          <>
+            <div className="absolute top-4 right-4 w-16 h-16 rounded-full opacity-30" style={{ backgroundColor: config?.color ?? "#ccc" }} />
+            <div className="absolute top-8 right-8 w-8 h-8 rounded-full opacity-20" style={{ backgroundColor: config?.color ?? "#ccc" }} />
+          </>
+        )}
       </div>
 
       {/* Content */}
