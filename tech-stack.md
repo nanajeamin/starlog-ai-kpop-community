@@ -27,6 +27,7 @@ Mapbox  Anthropic    Replicate
 
 ### 1. 框架：Next.js 14 (App Router)
 
+**选它而不是 Vite/CRA 的原因：**
 - API Routes 内置，前后端一个仓库，不用单独起后端
 - 天然支持 SSR，地图页首屏有内容（不是白屏）
 - Vercel 一键部署，push 即上线
@@ -56,12 +57,15 @@ src/
 
 ### 2. 样式：Tailwind CSS + shadcn/ui
 
+**选它而不是 Ant Design / MUI 的原因：**
 - shadcn/ui 组件可以直接复制进项目，不引入运行时包体积
 - Tailwind 写响应式极快（`md:` `lg:` 前缀），手机/桌面一套代码
 - 视觉风格接近 PRD 要求（浅色、圆角、留白）
 
+**核心组件用法：**
+
 | 组件需求 | shadcn/ui 组件 |
-|---------|---------------|
+|---------|--------------|
 | 筛选 chips | Badge + 自定义 toggle 样式 |
 | 半屏地点卡片 | Sheet (bottom drawer) |
 | 分步生成流程 | 自定义 Stepper + Card |
@@ -73,16 +77,39 @@ src/
 
 ### 3. 地图：Mapbox GL JS + react-map-gl
 
+**选它而不是 Leaflet/高德的原因：**
 - 视觉效果最接近 PRD 参考图（PamPam 风格）
 - `react-map-gl` 封装好，React 里直接用
 - 自定义 pin（爱豆头像圆形）支持最完整
 - 免费额度：每月 5 万次 map load，演示完全够用
-- **需要的 Key**：Mapbox Public Token（前端直接用，安全）
+
+```tsx
+// 爱豆头像 Pin 示例
+import { Marker } from 'react-map-gl';
+
+<Marker longitude={template.lng} latitude={template.lat}>
+  <div className="relative cursor-pointer group">
+    <img
+      src={idol.avatar_url}
+      className="w-10 h-10 rounded-full border-2 border-white shadow-lg
+                 group-hover:scale-110 transition-transform"
+    />
+    <span className="absolute -bottom-5 left-1/2 -translate-x-1/2
+                     text-xs font-medium whitespace-nowrap bg-white
+                     px-1 rounded shadow-sm">
+      {template.district}
+    </span>
+  </div>
+</Marker>
+```
+
+**需要的 Key：** Mapbox Public Token（前端直接用，安全）
 
 ---
 
 ### 4. 数据：静态 JSON（作品集阶段，不用数据库）
 
+**为什么不用 Supabase：**
 - 明天演示，静态 JSON 零配置、零网络依赖风险
 - 社群互动（点赞/收藏）用 `localStorage` 模拟，演示效果一致
 - Seed 数据 15-20 条，JSON 文件完全够
@@ -95,7 +122,7 @@ data/
 └── posts.json        # 种子社群帖子（预生成图 + 文案）
 ```
 
-**Supabase 什么时候加**：演示通过后，正式 MVP 阶段迁移，改动只在 `lib/data.ts`。
+**Supabase 什么时候加：** 演示通过后，正式 MVP 阶段迁移，改动只在 `lib/data.ts` 的数据读取层。
 
 ---
 
@@ -103,17 +130,50 @@ data/
 
 #### LLM（Agent Demo）：Anthropic claude-sonnet-4-6
 
-**没有 Key 的兜底方案**：Behind the AI 页展示预跑好的输入/输出对，静态展示，演示效果相同。
+```typescript
+// app/api/agent/route.ts
+import Anthropic from '@anthropic-ai/sdk';
+
+const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+// Tool Use 强制 JSON 输出，稳定不幻觉
+const response = await client.messages.create({
+  model: 'claude-sonnet-4-6',
+  tools: [{ name: 'create_spot_template', input_schema: SCHEMA }],
+  tool_choice: { type: 'tool', name: 'create_spot_template' },
+  messages: [{ role: 'user', content: rawText }]
+});
+```
+
+**没有 Key 的兜底方案：** Behind the AI 页展示预跑好的输入/输出对，静态展示，演示效果相同。
 
 #### 图像生成：Replicate API
 
-**没有 Key 的兜底方案**：预生成 2-3 张「同款效果图」放 `public/mock-outputs/`，交互流程完整。
+```typescript
+// app/api/generate/route.ts
+import Replicate from 'replicate';
+
+const replicate = new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
+const output = await replicate.run('模型ID', { input: { ... } });
+```
+
+**没有 Key 的兜底方案：** 预生成 2-3 张「同款效果图」放 `public/mock-outputs/`，生成页直接展示，交互流程完整，只是结果是预设的。
 
 ---
 
 ### 6. 部署：Vercel
 
-`git push` 自动触发部署，URL 立刻可分享。免费套餐够演示。
+**选它的原因：**
+- `git push` 自动触发部署，URL 立刻可分享
+- 环境变量在 Vercel Dashboard 配置，不暴露 Key
+- 免费套餐：100GB 带宽/月，Serverless Function 100h/月，够演示
+
+```bash
+# 部署三步
+npm i -g vercel
+vercel login
+vercel --prod
+```
 
 ---
 
@@ -133,18 +193,19 @@ data/
 ## 环境变量清单
 
 ```bash
-# .env.local
+# .env.local（本地开发）
 NEXT_PUBLIC_MAPBOX_TOKEN=pk.xxx    # 前端直接用，NEXT_PUBLIC 前缀
 ANTHROPIC_API_KEY=sk-ant-xxx       # 仅服务端 API Routes 调用
 REPLICATE_API_TOKEN=r8_xxx         # 仅服务端 API Routes 调用
 ```
 
-- `NEXT_PUBLIC_` 前缀变量暴露到前端，Mapbox Public Token 本来就是公开的，安全
-- Anthropic / Replicate Key 不加前缀，只在服务端用，不泄漏
+**安全说明：**
+- `NEXT_PUBLIC_` 前缀变量会暴露到前端，Mapbox Public Token 本来就是公开的，安全
+- Anthropic / Replicate Key 不加前缀，只在服务端 API Routes 用，不泄漏
 
 ---
 
-## 依赖清单
+## 依赖清单（package.json）
 
 ```json
 {

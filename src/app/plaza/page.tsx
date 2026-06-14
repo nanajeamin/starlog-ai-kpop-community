@@ -31,6 +31,7 @@ export default function PlazaPage() {
 
   return (
     <div className="min-h-screen bg-canvas">
+      {/* Header */}
       <div className="border-b border-hairline-soft">
         <div className="section-container py-6 flex items-center justify-between">
           <div>
@@ -46,6 +47,7 @@ export default function PlazaPage() {
         </div>
       </div>
 
+      {/* Filters */}
       <div className="sticky top-[105px] z-20 bg-canvas/95 backdrop-blur border-b border-hairline-soft">
         <div className="section-container py-3">
           <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
@@ -62,6 +64,7 @@ export default function PlazaPage() {
         </div>
       </div>
 
+      {/* Masonry grid */}
       <div className="section-container py-8">
         <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
           {filtered.map((post) => {
@@ -70,6 +73,7 @@ export default function PlazaPage() {
             return (
               <div key={post.post_id} className="break-inside-avoid">
                 <div className="rounded-3xl overflow-hidden border border-hairline-soft hover:shadow-card transition-shadow">
+                  {/* Image */}
                   <div
                     className="w-full flex flex-col items-center justify-center relative"
                     style={{
@@ -86,6 +90,7 @@ export default function PlazaPage() {
                     </div>
                   </div>
 
+                  {/* Info */}
                   <div className="bg-canvas p-3">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="w-6 h-6 rounded-full bg-surface flex items-center justify-center text-xs font-bold text-steel flex-shrink-0">
@@ -95,6 +100,7 @@ export default function PlazaPage() {
                     </div>
                     <p className="text-xs text-slate line-clamp-2 mb-3">{post.caption}</p>
 
+                    {/* Actions */}
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => toggleLike(post.post_id)}
@@ -123,6 +129,7 @@ export default function PlazaPage() {
         )}
       </div>
 
+      {/* FAB */}
       <div className="fixed bottom-8 right-6 z-30">
         <Link
           href="/generate"

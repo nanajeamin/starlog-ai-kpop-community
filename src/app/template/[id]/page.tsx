@@ -34,6 +34,7 @@ export default function TemplateDetailPage({ params }: { params: { id: string } 
 
   return (
     <div className="min-h-screen bg-canvas">
+      {/* Back nav */}
       <div className="border-b border-hairline-soft bg-canvas sticky top-[105px] z-10">
         <div className="section-container py-3 flex items-center gap-4">
           <Link href="/map" className="text-sm text-steel hover:text-ink flex items-center gap-1">
@@ -45,6 +46,7 @@ export default function TemplateDetailPage({ params }: { params: { id: string } 
       </div>
 
       <div className="section-container py-8 max-w-3xl mx-auto">
+        {/* Hero image */}
         <div className={`w-full aspect-video bg-gradient-to-br ${gradient} rounded-3xl relative overflow-hidden mb-8`}>
           <div
             className="absolute top-6 right-6 w-32 h-32 rounded-full opacity-20"
@@ -68,12 +70,14 @@ export default function TemplateDetailPage({ params }: { params: { id: string } 
           </div>
         </div>
 
+        {/* Title block */}
         <div className="mb-8">
           <h1 className="text-heading-1 text-ink mb-2">{template.place_name_cn}</h1>
           <p className="text-base text-steel mb-1">{template.place_name_kr} / {template.place_name_en}</p>
           <p className="text-sm text-stone">{template.address}</p>
         </div>
 
+        {/* Info grid */}
         <div className="grid grid-cols-3 gap-4 mb-8 p-5 bg-surface rounded-2xl">
           <div>
             <p className="text-eyebrow mb-1">区域</p>
@@ -91,11 +95,13 @@ export default function TemplateDetailPage({ params }: { params: { id: string } 
           </div>
         </div>
 
+        {/* Spot reason */}
         <div className="bg-block-yellow rounded-3xl p-7 mb-6">
           <h2 className="text-heading-3 text-ink mb-3">🌟 为什么值得打卡</h2>
           <p className="text-base text-slate leading-relaxed">{template.spot_reason}</p>
         </div>
 
+        {/* Tags */}
         <div className="mb-6">
           <h2 className="text-heading-3 text-ink mb-4">同款构图 · 色调 · 姿势</h2>
           <div className="flex flex-wrap gap-2">
@@ -110,11 +116,13 @@ export default function TemplateDetailPage({ params }: { params: { id: string } 
           </div>
         </div>
 
+        {/* Photo tips */}
         <div className="bg-block-teal rounded-3xl p-7 mb-6">
           <h2 className="text-heading-3 text-ink mb-3">📸 拍照建议</h2>
           <p className="text-base text-slate leading-relaxed">{template.photo_tips}</p>
         </div>
 
+        {/* Risk notes */}
         <div className="border border-hairline rounded-2xl p-5 mb-8">
           <h3 className="text-sm font-semibold text-ink flex items-center gap-2 mb-2">
             <span>⚠️</span> 风险提示
@@ -122,6 +130,7 @@ export default function TemplateDetailPage({ params }: { params: { id: string } 
           <p className="text-sm text-slate">{template.risk_notes}</p>
         </div>
 
+        {/* Social stats */}
         <div className="grid grid-cols-4 gap-4 mb-10 py-6 border-y border-hairline-soft">
           {[
             { label: "生成同款", value: template.social_stats.generation_count, icon: "✨" },
@@ -137,6 +146,7 @@ export default function TemplateDetailPage({ params }: { params: { id: string } 
           ))}
         </div>
 
+        {/* Community posts */}
         <div className="mb-10">
           <h2 className="text-heading-3 text-ink mb-5">同款广场 · 相关帖子</h2>
           <div className="grid grid-cols-3 gap-3">
@@ -163,6 +173,7 @@ export default function TemplateDetailPage({ params }: { params: { id: string } 
         </div>
       </div>
 
+      {/* Fixed bottom CTA */}
       <div className="fixed bottom-0 left-0 right-0 bg-canvas border-t border-hairline-soft p-4 z-30">
         <div className="max-w-3xl mx-auto flex gap-3">
           <Link
@@ -180,6 +191,7 @@ export default function TemplateDetailPage({ params }: { params: { id: string } 
         </div>
       </div>
 
+      {/* Spacer for fixed bar */}
       <div className="h-24" />
     </div>
   );

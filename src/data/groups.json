@@ -1,0 +1,26 @@
+[
+  {
+    "id": "bts",
+    "name": "BTS",
+    "name_kr": "방탄소년단",
+    "color": "#9B59B6",
+    "accent": "#E8D5F5",
+    "members": ["RM", "Jin", "SUGA", "j-hope", "Jimin", "V", "Jungkook"]
+  },
+  {
+    "id": "blackpink",
+    "name": "BLACKPINK",
+    "name_kr": "블랙핑크",
+    "color": "#E91E8C",
+    "accent": "#FFD6EC",
+    "members": ["Jisoo", "Jennie", "Rosé", "Lisa"]
+  },
+  {
+    "id": "aespa",
+    "name": "aespa",
+    "name_kr": "에스파",
+    "color": "#00B4D8",
+    "accent": "#CAF0F8",
+    "members": ["Karina", "Giselle", "Winter", "Ningning"]
+  }
+]

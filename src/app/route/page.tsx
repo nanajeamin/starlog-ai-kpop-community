@@ -17,13 +17,14 @@ const CLUSTER_BADGES: Record<string, { icon: string; time: string; distance: str
   "강남 K-POP 투어": { icon: "🏢", time: "约 5 小时", distance: "6.2km" },
   "홍대 스트릿 투어": { icon: "🌃", time: "约 3 小时", distance: "2.8km" },
   "한강 선셋 투어": { icon: "🌅", time: "约 2 小时", distance: "1.5km" },
-  "청담동 럭셔리 투어": { icon: "💅", time: "约 3 小时", distance: "2.0km" },
-  "이태원 아트 투어": { icon: "🎨", time: "约 4 小时", distance: "3.0km" },
+  "청담동 럭셔리 투어": { icon: "💅", time: "约 3 小시", distance: "2.0km" },
+  "이태원 아트 투어": { icon: "🎨", time: "约 4 小시", distance: "3.0km" },
   "합정 아트 투어": { icon: "🖼️", time: "약 2 小时", distance: "1.8km" },
   "북촌 문화 투어": { icon: "🏯", time: "约 3 小时", distance: "2.5km" },
   "이태원 선셋 투어": { icon: "🌇", time: "约 2 小时", distance: "1.2km" },
   "종로 역사 투어": { icon: "🏛️", time: "约 4 小时", distance: "4.0km" },
   "압구정 패션 투어": { icon: "👗", time: "约 3 小时", distance: "2.3km" },
+  "宁宁首尔巡礼路线": { icon: "✨", time: "约 5 小时", distance: "8.5km" },
 };
 
 export default function RoutePage() {
@@ -31,6 +32,7 @@ export default function RoutePage() {
 
   return (
     <div className="min-h-screen bg-canvas">
+      {/* Header */}
       <div className="border-b border-hairline-soft">
         <div className="section-container py-8">
           <p className="text-eyebrow mb-3">智能路线规划</p>
@@ -41,6 +43,7 @@ export default function RoutePage() {
         </div>
       </div>
 
+      {/* How it works */}
       <div className="bg-block-lilac">
         <div className="section-container py-10">
           <h2 className="text-heading-3 text-ink mb-6">路线规划怎么用？</h2>
@@ -64,6 +67,7 @@ export default function RoutePage() {
         </div>
       </div>
 
+      {/* Route clusters */}
       <div className="section-container py-12">
         <h2 className="text-heading-2 text-ink mb-8">精选巡礼路线</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -73,6 +77,7 @@ export default function RoutePage() {
 
             return (
               <div key={clusterName} className="rounded-3xl border border-hairline-soft overflow-hidden hover:shadow-card transition-shadow">
+                {/* Cluster header */}
                 <div className={`p-6 bg-gradient-to-br ${GROUP_GRADIENTS[groupIds[0]] ?? "from-[#f0f0f0] to-[#e0e0e0]"}`}>
                   <div className="flex items-start justify-between mb-3">
                     <span className="text-3xl">{info.icon}</span>
@@ -90,6 +95,7 @@ export default function RoutePage() {
                   </div>
                 </div>
 
+                {/* Stops timeline */}
                 <div className="bg-canvas p-5">
                   <div className="space-y-3 mb-5">
                     {templates.map((t, idx) => {
@@ -135,6 +141,7 @@ export default function RoutePage() {
         </div>
       </div>
 
+      {/* Custom route CTA */}
       <div className="section-container pb-16">
         <div className="bg-block-coral rounded-3xl p-10 text-center">
           <h2 className="text-heading-2 text-ink mb-3">想要定制路线？</h2>

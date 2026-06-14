@@ -39,6 +39,7 @@ function GenerateContent() {
   const [compTags, setCompTags] = useState<string[]>([]);
   const [styleTags, setStyleTags] = useState<string[]>([]);
   const [poseTags, setPoseTags] = useState<string[]>([]);
+  const [userImageUrl, setUserImageUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [result, setResult] = useState<{ images: string[]; caption: string; disclaimer: string; mock?: boolean } | null>(null);
 
@@ -61,6 +62,7 @@ function GenerateContent() {
           composition_tags: compTags,
           style_tags: styleTags,
           pose_tags: poseTags,
+          user_image_url: userImageUrl,
         }),
       });
       const data = await res.json();
@@ -79,6 +81,7 @@ function GenerateContent() {
 
   return (
     <div className="min-h-screen bg-canvas">
+      {/* Header */}
       <div className="border-b border-hairline-soft">
         <div className="section-container py-6">
           <h1 className="text-heading-2 text-ink mb-1">生成我的同款照</h1>
@@ -86,6 +89,7 @@ function GenerateContent() {
         </div>
       </div>
 
+      {/* Stepper */}
       <div className="border-b border-hairline-soft bg-surface">
         <div className="section-container py-4">
           <div className="flex items-center gap-0 overflow-x-auto">
@@ -109,9 +113,12 @@ function GenerateContent() {
       </div>
 
       <div className="section-container py-10 max-w-3xl mx-auto">
+
+        {/* Step 0: Select template */}
         {step === 0 && (
           <div>
             <h2 className="text-heading-3 text-ink mb-6">选择同款模板</h2>
+            {/* Group filter */}
             <div className="flex gap-2 mb-6 overflow-x-auto pb-1">
               {["all", "bts", "blackpink", "aespa"].map((g) => (
                 <button
@@ -148,6 +155,7 @@ function GenerateContent() {
           </div>
         )}
 
+        {/* Step 1: Customize params */}
         {step === 1 && selectedTemplate && (
           <div>
             <div className="flex items-center gap-3 mb-8 p-5 bg-surface rounded-2xl">
@@ -226,18 +234,40 @@ function GenerateContent() {
           </div>
         )}
 
+        {/* Step 2: Upload */}
         {step === 2 && selectedTemplate && (
           <div>
             <h2 className="text-heading-3 text-ink mb-2">上传你的照片</h2>
             <p className="text-sm text-steel mb-8">建议：正面照，光线充足，单人为主</p>
 
-            <div className="border-2 border-dashed border-hairline-strong rounded-3xl p-12 text-center mb-6 hover:border-ink transition-colors cursor-pointer">
-              <div className="text-4xl mb-3">📷</div>
-              <p className="font-medium text-ink mb-1">点击或拖拽上传照片</p>
-              <p className="text-sm text-steel">支持 JPG / PNG · 建议 ≤10MB</p>
-              <input type="file" accept="image/*" className="hidden" />
-            </div>
+            <label className="block border-2 border-dashed border-hairline-strong rounded-3xl p-12 text-center mb-6 hover:border-ink transition-colors cursor-pointer">
+              {userImageUrl ? (
+                <div className="flex flex-col items-center gap-3">
+                  <img src={userImageUrl} alt="uploaded" className="w-32 h-32 object-cover rounded-2xl mx-auto" />
+                  <p className="text-sm text-success font-medium">✅ 照片已上传，点击重新选择</p>
+                </div>
+              ) : (
+                <>
+                  <div className="text-4xl mb-3">📷</div>
+                  <p className="font-medium text-ink mb-1">点击或拖拽上传照片</p>
+                  <p className="text-sm text-steel">支持 JPG / PNG · 建议 ≤10MB</p>
+                </>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const reader = new FileReader();
+                  reader.onload = (ev) => setUserImageUrl(ev.target?.result as string);
+                  reader.readAsDataURL(file);
+                }}
+              />
+            </label>
 
+            {/* Compliance */}
             <div className="bg-block-mint rounded-2xl p-5 space-y-2 mb-8">
               {[
                 "你的照片仅用于本次生成，不会被存储或分发",
@@ -263,6 +293,7 @@ function GenerateContent() {
           </div>
         )}
 
+        {/* Step 3: Result */}
         {step === 3 && (
           <div>
             {isGenerating ? (
@@ -286,6 +317,7 @@ function GenerateContent() {
                   </div>
                 )}
 
+                {/* Mock result gallery */}
                 <div className="grid grid-cols-2 gap-3 mb-6">
                   {[...Array(4)].map((_, i) => (
                     <div
@@ -306,11 +338,13 @@ function GenerateContent() {
                   📝 {result.disclaimer} · K-Star Spot
                 </p>
 
+                {/* Caption */}
                 <div className="bg-surface rounded-2xl p-5 mb-6">
                   <p className="text-xs font-mono uppercase tracking-wider text-stone mb-2">生成文案（可编辑）</p>
                   <p className="text-sm text-slate">{result.caption}</p>
                 </div>
 
+                {/* Actions */}
                 <div className="space-y-3">
                   <Link
                     href="/plaza"

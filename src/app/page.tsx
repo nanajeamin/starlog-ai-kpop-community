@@ -175,6 +175,7 @@ export default function HomePage() {
             {posts.map((post) => (
               <div key={post.post_id} className="break-inside-avoid">
                 <div className="rounded-3xl overflow-hidden border border-hairline-soft hover:shadow-card transition-shadow">
+                  {/* Image placeholder */}
                   <div
                     className="w-full aspect-[3/4] flex flex-col items-center justify-center relative"
                     style={{ backgroundColor: post.bg_color }}
@@ -187,6 +188,7 @@ export default function HomePage() {
                       AI Generated
                     </div>
                   </div>
+                  {/* Caption */}
                   <div className="bg-canvas p-3">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="w-6 h-6 rounded-full bg-surface flex items-center justify-center text-xs font-bold text-steel">
